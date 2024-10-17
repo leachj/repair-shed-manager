@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Customer {
-  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   email     String?
@@ -22,13 +22,33 @@ model Customer {
   foreNames String?
   lastName  String?
   phone     String?
-  jobs       Job[]
+  jobs      Job[]
 }
 
 model Job {
-  id         String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id         Int      @id @default(autoincrement())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   customer   Customer @relation(fields: [customerId], references: [id])
-  customerId String @db.Uuid
+  customerId Int
+  name       String
+  notes      String?
+  parts      String?
+  repairs    String?
+  status     JobStatus @default(ITEM_IN_SHED)
+}
+
+enum JobStatus {
+  ITEM_IN_SHED
+  BEING_ASSESSED
+  PARTS_COSTED
+  PARTS_PURCHASE_APPROVED_BY_CUSTOMER
+  PARTS_ORDERED
+  PARTS_ARRIVED
+  REAPIR_IN_HAND
+  REAPIR_NOT_SUCCESSFUL
+  COMPLETE_REPAIR_SUCCESSFUL
+  COMPLETE_ITEM_NOT_REPAIRED
+  COMPLETE_ITEM_SCRAPPER
+  CANT_FIND
 }

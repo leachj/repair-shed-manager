@@ -1,8 +1,18 @@
 
 import { PrismaClient} from "@prisma/client"
 
-
 const prisma = new PrismaClient()
+
+export async function getAllJobs() {
+  const jobs = prisma.job.findMany()
+  return jobs;
+}
+
+export async function getJob(id: number) {
+  const job = prisma.job.findFirst({where: {id}})
+  return job;
+}
+
 
 export async function fetchCardData() {
   try {
