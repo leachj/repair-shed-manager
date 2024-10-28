@@ -1,5 +1,5 @@
 
-import { PrismaClient} from "@prisma/client"
+import { Customer, PrismaClient} from "@prisma/client"
 
 const prisma = new PrismaClient()
 
@@ -11,6 +11,26 @@ export async function getAllJobs() {
 export async function getJob(id: number) {
   const job = prisma.job.findFirst({where: {id}})
   return job;
+}
+
+export async function getJobsForCustomer(customer: Customer) {
+  const jobs = prisma.job.findMany({where: {customerId: customer.id}});
+  return jobs;
+}
+
+
+export async function getAllCustomers() {
+  const jobs = prisma.customer.findMany()
+  return jobs;
+}
+
+export async function getCustomer(id: number) {
+  const job = prisma.customer.findFirst({where: {id}})
+  return job;
+}
+
+export async function createCustomer(customer: Pick<Customer, "lastName" | "firstNames" | "email">) {
+  return await prisma.customer.create({data: customer})
 }
 
 

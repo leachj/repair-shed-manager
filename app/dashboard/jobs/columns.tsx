@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { DataTableColumnHeader } from "../../ui/dashboard/data-table-column-header"
 import Link from "next/link"
 
-export const columns: ColumnDef<Job>[] = [
+export const jobColumns: ColumnDef<Job>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => (

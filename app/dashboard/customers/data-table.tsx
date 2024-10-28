@@ -24,6 +24,8 @@ import React from "react"
 import { Input } from "@/components/ui/input"
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
+
 
 
 interface DataTableProps<TData, TValue> {
@@ -31,14 +33,11 @@ interface DataTableProps<TData, TValue> {
   data: TData[]
 }
 
-export function JobDataTable<TData, TValue>({
+export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
 
   const table = useReactTable({
     data,
@@ -46,11 +45,10 @@ export function JobDataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    globalFilterFn: "includesString",
     state: {
       sorting,
-      columnFilters
     },
   })
 
@@ -59,17 +57,15 @@ export function JobDataTable<TData, TValue>({
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter items..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
+          onChange={e => table.setGlobalFilter(String(e.target.value))}
           className="max-w-sm"
         />
-        <Button
+        <Button asChild
         >
+          <Link href={`/dashboard/customers/new`}>
           <Plus className="mr-2 h-4 w-4" />
-
-          Create New Job
+          Create New Customer
+          </Link>
         </Button>
       </div>
       <div className="rounded-md border">

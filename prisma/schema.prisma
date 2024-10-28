@@ -19,7 +19,7 @@ model Customer {
   updatedAt DateTime @updatedAt
   email     String?
   title     String?
-  foreNames String?
+  firstNames String?
   lastName  String?
   phone     String?
   jobs      Job[]

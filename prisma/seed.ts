@@ -1,16 +1,16 @@
 import { JobStatus, PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 async function main() {
-const customer = await prisma.customer.upsert({
-  where: { id: 1 },
-  update: {},
-  create: {
-    id: 1,
-    email: 'test2@example.com',
-          foreNames: 'test',
-          lastName: 'two',
-  }
-})
+  const customer = await prisma.customer.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
+      id: 1,
+      email: 'test2@example.com',
+      firstNames: 'test',
+      lastName: 'two',
+    }
+  })
 
   const job = await prisma.job.upsert({
     where: { id: 1 },
