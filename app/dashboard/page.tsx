@@ -1,8 +1,9 @@
 import { Card } from '@/app/ui/dashboard/cards';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchCardData } from '@/app/lib/data';
-
  
+export const dynamic = "force-dynamic"
+
 export default async function Page() {
   const { numberOfJobs, numberOfCustomers } = await fetchCardData();
 
