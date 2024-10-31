@@ -13,7 +13,7 @@ export const jobColumns: ColumnDef<Job>[] = [
       <DataTableColumnHeader column={column} title="Id" />
     ),
     cell: ({ row }) => {
-      return <Button variant={"link"}><Link href={`/dashboard/jobs/${row.getValue("id")}`}>{row.getValue("id") as String}</Link></Button>
+      return <Button variant={"link"}><Link href={`/dashboard/jobs/${row.getValue("id")}`}>{row.getValue("id") as string}</Link></Button>
     },
   },
   {
@@ -28,7 +28,7 @@ export const jobColumns: ColumnDef<Job>[] = [
       <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
-      return <div className="text-transform: capitalize">{(row.getValue("status") as String).replaceAll("_"," ").toLowerCase()}</div>
+      return <div className="text-transform: capitalize">{(row.getValue("status") as string).replaceAll("_"," ").toLowerCase()}</div>
     },
   },
   {

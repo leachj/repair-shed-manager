@@ -1,4 +1,3 @@
-import { Job } from "@prisma/client"
 import { getCustomer, getJobsForCustomer } from "../../../lib/data"
 import { jobColumns } from "../../jobs/columns"
 import { JobDataTable } from "../../jobs/data-table"

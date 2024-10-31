@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/b79f379a-c910-48de-972d-94e10facc931/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/repair-shed-manager",
+    "appService.deploySubpath": "."
+}

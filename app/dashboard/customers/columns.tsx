@@ -13,7 +13,7 @@ export const columns: ColumnDef<Customer>[] = [
       <DataTableColumnHeader column={column} title="Id" />
     ),
     cell: ({ row }) => {
-      return <Button variant={"link"}><Link href={`/dashboard/customers/${row.getValue("id")}`}>{row.getValue("id") as String}</Link></Button>
+      return <Button variant={"link"}><Link href={`/dashboard/customers/${row.getValue("id")}`}>{row.getValue("id") as string}</Link></Button>
     },
   },
   {
