@@ -26,17 +26,21 @@ model Customer {
 }
 
 model Job {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  customer   Customer @relation(fields: [customerId], references: [id])
-  customerId Int
-  name       String
-  notes      String?
-  parts      String?
-  repairs    String?
-  status     JobStatus @default(ITEM_IN_SHED)
-  repairer   String?
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  customer    Customer @relation(fields: [customerId], references: [id])
+  customerId  Int
+  name        String
+  notes       String?
+  parts       String?
+  repairs     String?
+  status      JobStatus @default(ITEM_IN_SHED)
+  repairer    String?
+  category    JobCategory @default(ELECTRICAL)
+  subCategory JobSubCategory @default(HOUSEHOLD)
+  nature      JobNature @default(EVERYDAY)
+
 }
 
 enum JobStatus {
@@ -52,4 +56,30 @@ enum JobStatus {
   COMPLETE_ITEM_NOT_REPAIRED
   COMPLETE_ITEM_SCRAPPER
   CANT_FIND
+}
+
+enum JobCategory {
+  ELECTRICAL
+  ELECTRONIC
+  MECHANICAL
+  CLOTHING
+  CERAMIC
+  WOODWORK
+}
+
+enum JobSubCategory {
+  HOUSEHOLD
+  TOOL
+  TOY
+  COMPUTERS
+  AUDIO
+  MISC
+}
+
+enum JobNature {
+  EVERYDAY
+  FUNCTIONAL
+  SPECIAL
+  VERY_SPECIAL
+  HEIRLOOM
 }

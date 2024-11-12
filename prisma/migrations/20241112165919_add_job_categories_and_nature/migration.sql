@@ -1,0 +1,13 @@
+-- CreateEnum
+CREATE TYPE "JobCategory" AS ENUM ('ELECTRICAL', 'ELECTRONIC', 'MECHANICAL', 'CLOTHIN', 'CERAMIC', 'WOODWORK');
+
+-- CreateEnum
+CREATE TYPE "JobSubCategory" AS ENUM ('HOUSEHOLD', 'TOOL', 'TOY', 'COMPUTERS', 'AUDIO', 'MISC');
+
+-- CreateEnum
+CREATE TYPE "JobNature" AS ENUM ('EVERYDAY', 'FUNCTIONAL', 'SPECIAL', 'VERY_SPECIAL', 'HEIRLOOM');
+
+-- AlterTable
+ALTER TABLE "Job" ADD COLUMN     "category" "JobCategory" NOT NULL DEFAULT 'ELECTRICAL',
+ADD COLUMN     "nature" "JobNature" NOT NULL DEFAULT 'EVERYDAY',
+ADD COLUMN     "subCategory" "JobSubCategory" NOT NULL DEFAULT 'HOUSEHOLD';

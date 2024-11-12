@@ -15,10 +15,17 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { jobSchema } from "./schema"
+import { jobSchema, JobCategoryEnum, JobSubCategoryEnum, JobNatureEnum } from "./schema"
 import { createJobAction } from "./action"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 
 export default function JobForm() {
@@ -29,6 +36,7 @@ export default function JobForm() {
             name: "",
             repairs: "",
             parts: "",
+            assignToMe: false,
         },
     })
     const router = useRouter()
@@ -82,6 +90,78 @@ export default function JobForm() {
                                 <FormControl>
                                     <Textarea {...field} />
                                 </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="category"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Category</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a category" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {Object.keys(JobCategoryEnum.enum).map((option) => (
+                                            <SelectItem key={option} value={option}>
+                                                {option.toLowerCase()}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="subCategory"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Sub Category</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a sub category" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {Object.keys(JobSubCategoryEnum.enum).map((option) => (
+                                            <SelectItem key={option} value={option}>
+                                                {option.toLowerCase()}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="nature"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Nature</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a nature" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {Object.keys(JobNatureEnum.enum).map((option) => (
+                                            <SelectItem key={option} value={option}>
+                                                {option.toLowerCase().replaceAll("_"," ")}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
                                 <FormMessage />
                             </FormItem>
                         )}

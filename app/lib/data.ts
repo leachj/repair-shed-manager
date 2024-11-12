@@ -34,7 +34,7 @@ export async function createCustomer(customer: Pick<Customer, "lastName" | "firs
   return await prisma.customer.create({data: customer})
 }
 
-export async function createJob(job: Pick<Job, "name" | "parts" | "repairs">, customer: Customer, repairer?: string) {
+export async function createJob(job: Pick<Job, "name" | "parts" | "repairs" | "category" | "subCategory" | "nature">, customer: Customer, repairer?: string) {
   return await prisma.job.create({data: {customerId: customer.id, repairer: repairer, ...job}})
 }
 
