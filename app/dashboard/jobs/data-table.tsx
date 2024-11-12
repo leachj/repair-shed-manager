@@ -24,16 +24,20 @@ import React from "react"
 import { Input } from "@/components/ui/input"
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Customer } from "@prisma/client"
+import Link from "next/link"
 
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  customer?: Customer
 }
 
 export function JobDataTable<TData, TValue>({
   columns,
   data,
+  customer
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -65,11 +69,12 @@ export function JobDataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <Button
+        <Button asChild
         >
-          <Plus className="mr-2 h-4 w-4" />
-
-          Create New Job
+          <Link href={{ pathname: `/dashboard/jobs/new`, query: { customerId: customer?.id } }}>
+            <Plus className="mr-2 h-4 w-4" />
+            Create New Job{customer ? " For Customer" : ""}
+          </Link>
         </Button>
       </div>
       <div className="rounded-md border">

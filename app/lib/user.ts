@@ -22,3 +22,9 @@ export async function getUserName() {
 
     return principalName || "Unknown"
 }
+
+export async function getUserId() {
+    const headersList = await headers()
+    const principalId = headersList.get('X-MS-CLIENT-PRINCIPAL-ID')
+    return principalId
+}

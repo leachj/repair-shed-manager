@@ -41,6 +41,12 @@ export const jobColumns: ColumnDef<Job>[] = [
     },
   },
   {
+    accessorKey: "repairer",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Repairer" />
+    ),
+  },
+  {
     accessorKey: "notes",
     header: "Notes",
   }

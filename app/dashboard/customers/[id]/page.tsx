@@ -10,6 +10,6 @@ export default async function CustomerPage({ params }: { params: { id: string } 
     <div><h1 className={`mb-4 text-xl md:text-2xl`}>{customer?.firstNames} {customer?.lastName}</h1></div>
     <div>Email: {customer?.email}</div>
     <h2>Jobs for this customer:</h2>
-    {customer?<JobDataTable columns={jobColumns} data={await getJobsForCustomer(customer)}></JobDataTable>:''}
+    {customer?<JobDataTable columns={jobColumns} customer={customer} data={await getJobsForCustomer(customer)}></JobDataTable>:''}
   </div>
 }

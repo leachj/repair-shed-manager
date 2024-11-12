@@ -36,6 +36,7 @@ model Job {
   parts      String?
   repairs    String?
   status     JobStatus @default(ITEM_IN_SHED)
+  repairer   String?
 }
 
 enum JobStatus {

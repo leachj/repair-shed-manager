@@ -6,7 +6,7 @@ import { getUserName } from '../lib/user';
 export const dynamic = "force-dynamic"
 
 export default async function Page() {
-  const { numberOfJobs, numberOfCustomers } = await fetchCardData();
+  const { numberOfJobs, numberOfCustomers, numberOfJobsAssignedToMe } = await fetchCardData();
   const userName = await getUserName();
 
   return (
@@ -18,6 +18,7 @@ export default async function Page() {
         Welcome back {userName}
       </h2>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <Card title="My Jobs" value={numberOfJobsAssignedToMe} type="jobs" />
         <Card title="Total Jobs" value={numberOfJobs} type="jobs" />
         <Card
           title="Total Customers"
