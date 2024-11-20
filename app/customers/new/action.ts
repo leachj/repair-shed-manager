@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { createCustomer } from "../../../lib/data";
+import { createCustomer } from "@/app/lib/data";
 import { customerSchema } from "./schema";
 import { Customer } from "@prisma/client";
 

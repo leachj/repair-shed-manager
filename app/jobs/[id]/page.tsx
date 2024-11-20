@@ -1,4 +1,4 @@
-import { getJob } from "../../../lib/data"
+import { getJob } from "@/app/lib/data"
 
 export default async function JobPage({ params }: { params: { id: string } }) {
 
@@ -8,5 +8,8 @@ export default async function JobPage({ params }: { params: { id: string } }) {
     <div>Category: {job?.category?.toLowerCase()}</div>
     <div>Sub Category: {job?.subCategory?.toLowerCase()}</div>
     <div>Nature: {job?.nature?.toLowerCase()}</div>
+    <div>Notes: {job?.notes?.toLowerCase()}</div>
+    <div>Parts: {job?.parts?.toLowerCase()}</div>
+    <div>Repairs: {job?.repairs?.toLowerCase()}</div>
   </div>
 }

@@ -45,7 +45,7 @@ export default function JobForm() {
 
     async function onSubmit(values: z.infer<typeof jobSchema>) {
         const job = await createJobAction(values, customerId)
-        router.push(`/dashboard/jobs/${job.id}`)
+        router.push(`/jobs/${job.id}`)
     }
 
     return (

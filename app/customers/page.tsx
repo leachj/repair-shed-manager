@@ -1,4 +1,4 @@
-import { getAllCustomers } from "../../lib/data"
+import { getAllCustomers } from "@/app/lib/data"
 import { columns } from "./columns"
 import { DataTable } from "./data-table"
 

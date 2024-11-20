@@ -26,5 +26,5 @@ export async function getUserName() {
 export async function getUserId() {
     const headersList = await headers()
     const principalId = headersList.get('X-MS-CLIENT-PRINCIPAL-ID')
-    return principalId
+    return principalId || undefined
 }

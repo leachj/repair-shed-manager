@@ -7,7 +7,6 @@ import {
   useReactTable,
   SortingState,
   getSortedRowModel,
-  ColumnFiltersState,
   getFilteredRowModel,
 } from "@tanstack/react-table"
 
@@ -24,25 +23,18 @@ import React from "react"
 import { Input } from "@/components/ui/input"
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Customer } from "@prisma/client"
 import Link from "next/link"
-
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  customer?: Customer
 }
 
-export function JobDataTable<TData, TValue>({
+export function DataTable<TData, TValue>({
   columns,
   data,
-  customer
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
 
   const table = useReactTable({
     data,
@@ -50,11 +42,10 @@ export function JobDataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    globalFilterFn: "includesString",
     state: {
       sorting,
-      columnFilters
     },
   })
 
@@ -63,17 +54,14 @@ export function JobDataTable<TData, TValue>({
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter items..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
+          onChange={e => table.setGlobalFilter(String(e.target.value))}
           className="max-w-sm"
         />
         <Button asChild
         >
-          <Link href={{ pathname: `/dashboard/jobs/new`, query: { customerId: customer?.id } }}>
-            <Plus className="mr-2 h-4 w-4" />
-            Create New Job{customer ? " For Customer" : ""}
+          <Link href={`/customers/new`}>
+          <Plus className="mr-2 h-4 w-4" />
+          Create New Customer
           </Link>
         </Button>
       </div>

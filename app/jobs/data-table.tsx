@@ -7,6 +7,7 @@ import {
   useReactTable,
   SortingState,
   getSortedRowModel,
+  ColumnFiltersState,
   getFilteredRowModel,
 } from "@tanstack/react-table"
 
@@ -23,20 +24,27 @@ import React from "react"
 import { Input } from "@/components/ui/input"
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Customer } from "@prisma/client"
 import Link from "next/link"
+import { useSearchParams } from 'next/navigation'
 
 
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  customer?: Customer
 }
 
-export function DataTable<TData, TValue>({
+export function JobDataTable<TData, TValue>({
   columns,
   data,
+  customer
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  )
 
   const table = useReactTable({
     data,
@@ -44,10 +52,11 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    globalFilterFn: "includesString",
     state: {
       sorting,
+      columnFilters
     },
   })
 
@@ -56,16 +65,20 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter items..."
-          onChange={e => table.setGlobalFilter(String(e.target.value))}
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("name")?.setFilterValue(event.target.value)
+          }
           className="max-w-sm"
         />
-        <Button asChild
-        >
-          <Link href={`/dashboard/customers/new`}>
-          <Plus className="mr-2 h-4 w-4" />
-          Create New Customer
+        {customer &&
+        <Button asChild>
+          <Link href={{ pathname: `/jobs/new`, query: { customerId: customer?.id } }}>
+            <Plus className="mr-2 h-4 w-4" />
+            Create New Job{customer ? " For Customer" : ""}
           </Link>
         </Button>
+      }
       </div>
       <div className="rounded-md border">
         <Table>

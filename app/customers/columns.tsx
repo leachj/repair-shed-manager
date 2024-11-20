@@ -3,7 +3,7 @@
 import { Customer } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 import { Button } from "@/components/ui/button"
-import { DataTableColumnHeader } from "../../ui/dashboard/data-table-column-header"
+import { DataTableColumnHeader } from "@/app/ui/dashboard/data-table-column-header"
 import Link from "next/link"
 
 export const columns: ColumnDef<Customer>[] = [
@@ -13,7 +13,7 @@ export const columns: ColumnDef<Customer>[] = [
       <DataTableColumnHeader column={column} title="Id" />
     ),
     cell: ({ row }) => {
-      return <Button variant={"link"}><Link href={`/dashboard/customers/${row.getValue("id")}`}>{row.getValue("id") as string}</Link></Button>
+      return <Link href={`/customers/${row.getValue("id")}`}><Button variant={"link"}>{row.getValue("id") as string}</Button></Link>
     },
   },
   {

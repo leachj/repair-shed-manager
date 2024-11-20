@@ -32,7 +32,7 @@ export default function CustomerForm() {
 
       async function onSubmit(values: z.infer<typeof customerSchema>) {
         const customer = await createCustomerAction(values)
-        router.push(`/dashboard/customers/${customer.id}`)
+        router.push(`/customers/${customer.id}`)
       }
       
     return (

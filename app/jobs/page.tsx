@@ -1,4 +1,4 @@
-import { getAllJobs } from "../../lib/data"
+import { getAllJobs } from "@/app/lib/data"
 import { jobColumns } from "./columns"
 import { JobDataTable } from "./data-table"
 export const dynamic = "force-dynamic"

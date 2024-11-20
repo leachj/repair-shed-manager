@@ -1,4 +1,4 @@
-import { getCustomer, getJobsForCustomer } from "../../../lib/data"
+import { getCustomer, getJobsForCustomer } from "@/app/lib/data"
 import { jobColumns } from "../../jobs/columns"
 import { JobDataTable } from "../../jobs/data-table"
 

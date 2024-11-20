@@ -1,10 +1,10 @@
 "use server";
 
 import { z } from "zod";
-import { createJob, getCustomer } from "../../../lib/data";
+import { createJob, getCustomer } from "@/app/lib/data";
 import { jobSchema } from "./schema";
 import { Job } from "@prisma/client";
-import { getUserId } from "../../../lib/user";
+import { getUserId } from "@/app/lib/user";
 
 
 export async function createJobAction(jobParams: z.infer<typeof jobSchema>, customerId: string | null): Promise<Job> {
