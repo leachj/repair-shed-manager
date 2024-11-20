@@ -26,9 +26,6 @@ import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Customer } from "@prisma/client"
 import Link from "next/link"
-import { useSearchParams } from 'next/navigation'
-
-
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
