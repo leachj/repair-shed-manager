@@ -22,7 +22,7 @@ export default function JobPage({ params }: { params: { id: string } }) {
     };
 
     fetchData();
-  }, []);
+  }, [params.id]);
 
   if (job) {
     return <div>
