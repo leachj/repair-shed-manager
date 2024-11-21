@@ -1,5 +1,6 @@
+"use server"
 
-import { Customer, Job, PrismaClient} from "@prisma/client"
+import { Customer, Job, JobStatus, PrismaClient} from "@prisma/client"
 import { getUserId } from "./user";
 
 const prisma = new PrismaClient()
@@ -69,4 +70,17 @@ export async function fetchCardData() {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch card data.');
   }
+}
+
+export async function changeStatus(job: Job, status: JobStatus, notes: string): Promise<Job> {
+  job.status = status
+  job = await prisma.job.update({
+      where: { id: job.id },
+      data: {
+          status: job.status,
+          notes: (job.notes || "") + ( notes ? "\n" + notes : "")
+      },
+  })
+  console.log("Marking job as ", status)
+  return job;
 }
