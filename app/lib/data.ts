@@ -8,7 +8,7 @@ const prisma = new PrismaClient()
 export async function getAllJobs() {
   const jobs = await prisma.job.findMany()
   const userMap = await getUserMap()
-  return jobs.map((job) => ({...job, repairer: userMap[job.repairer || "unknown"] || "unknown"}))
+  return jobs.map((job) => ({...job, repairer: userMap[job.repairer || "unknown"] || "Unassigned"}))
 }
 
 export async function getJob(id: number) {
@@ -29,7 +29,7 @@ export async function getJobAudits(id: number) {
 export async function getJobsForCustomer(customer: Customer) {
   const jobs = await prisma.job.findMany({where: {customerId: customer.id}});
   const userMap = await getUserMap()
-  return jobs.map((job) => ({...job, repairer: userMap[job.repairer || "unknown"] || "unknown"}))
+  return jobs.map((job) => ({...job, repairer: userMap[job.repairer || "unknown"] || "Unassigned"}))
 }
 
 

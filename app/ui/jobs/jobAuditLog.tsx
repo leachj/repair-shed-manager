@@ -24,7 +24,7 @@ export default function JobAuditLog({ jobAudits }: JobAuditProps) {
         {jobAudits.map((audit, index) => {
           switch (audit.type) {
             case "CREATE": return <li key={index} className="m-2"><b>Job Created</b> by <b>{audit.by}</b> <span title={audit.at.toLocaleDateString() +" at " + audit.at.toLocaleTimeString()}>{timeAgo.format(audit.at, 'round')}</span></li>
-            case "UPDATE": return <li key={index} className="m-2"><b>{audit.field}</b> changed from <b>{(audit.previousValue || "").replaceAll("_"," ").toLowerCase()}</b> to <b>{(audit.newValue || "").replaceAll("_"," ").toLowerCase()}</b> by <b>{audit.by}</b> <span title={audit.at.toLocaleDateString() +" at " + audit.at.toLocaleTimeString()}>{timeAgo.format(audit.at, 'round')}</span></li>
+            case "UPDATE": return <li key={index} className="m-2"><b className="capitalize">{audit.field}</b> changed from <b>{(audit.previousValue || "").replaceAll("_"," ").toLowerCase()}</b> to <b>{(audit.newValue || "").replaceAll("_"," ").toLowerCase()}</b> by <b>{audit.by}</b> <span title={audit.at.toLocaleDateString() +" at " + audit.at.toLocaleTimeString()}>{timeAgo.format(audit.at, 'round')}</span></li>
             case "DELETE": return <li key={index} className="m-2">Job <b>Deleted</b> by <b>{audit.by}</b> <span title={audit.at.toLocaleDateString() +" at " + audit.at.toLocaleTimeString()}>{timeAgo.format(audit.at, 'round')}</span></li>
           }
         })}
