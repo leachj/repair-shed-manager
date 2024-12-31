@@ -1,28 +1,35 @@
 "use server"
 
 import { Customer, Job, JobAuditType, JobStatus, PrismaClient} from "@prisma/client"
-import { getUserId } from "./user";
+import { getUserId, getUserMap } from "./user";
 
 const prisma = new PrismaClient()
 
 export async function getAllJobs() {
-  const jobs = prisma.job.findMany()
-  return jobs;
+  const jobs = await prisma.job.findMany()
+  const userMap = await getUserMap()
+  return jobs.map((job) => ({...job, repairer: userMap[job.repairer || "unknown"] || "unknown"}))
 }
 
 export async function getJob(id: number) {
-  const job = prisma.job.findFirst({where: {id}})
+  const job = await prisma.job.findFirst({where: {id}})
+  if(job) {
+    const userMap = await getUserMap()
+    job.repairer = userMap[job?.repairer || ""] || "unknown"
+  }
   return job;
 }
 
 export async function getJobAudits(id: number) {
-  const job = prisma.jobAudit.findMany({where: {jobId: id}})
-  return job;
+  const audits = await prisma.jobAudit.findMany({where: {jobId: id}})
+  const userMap = await getUserMap()
+  return audits.map((audit) => ({...audit, by: userMap[audit.by] || "unknown"}))
 }
 
 export async function getJobsForCustomer(customer: Customer) {
-  const jobs = prisma.job.findMany({where: {customerId: customer.id}});
-  return jobs;
+  const jobs = await prisma.job.findMany({where: {customerId: customer.id}});
+  const userMap = await getUserMap()
+  return jobs.map((job) => ({...job, repairer: userMap[job.repairer || "unknown"] || "unknown"}))
 }
 
 

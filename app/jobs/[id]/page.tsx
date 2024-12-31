@@ -56,6 +56,8 @@ export default function JobPage({ params }: { params: { id: string } }) {
         <div>Notes: {job.notes?.toLowerCase()}</div>
         <div>Parts: {job.parts?.toLowerCase()}</div>
         <div>Repairs: {job.repairs?.toLowerCase()}</div>
+        <div>Assignee: {job.repairer}</div>
+
 
         <Actions job={job} setJob={setJob}></Actions>
       </div>
