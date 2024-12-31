@@ -40,7 +40,20 @@ model Job {
   category    JobCategory @default(ELECTRICAL)
   subCategory JobSubCategory @default(HOUSEHOLD)
   nature      JobNature @default(EVERYDAY)
+  audits      JobAudit[]
 
+}
+
+model JobAudit {
+  id            Int @id @default(autoincrement())
+  at            DateTime @default(now())
+  type          JobAuditType
+  by            String
+  job           Job @relation(fields: [jobId], references: [id])
+  jobId         Int
+  field         String?
+  previousValue String?
+  newValue      String? 
 }
 
 enum JobStatus {
@@ -82,4 +95,10 @@ enum JobNature {
   SPECIAL
   VERY_SPECIAL
   HEIRLOOM
+}
+
+enum JobAuditType {
+  CREATE
+  UPDATE
+  DELETE
 }

@@ -1,6 +1,6 @@
 "use server"
 
-import { Customer, Job, JobStatus, PrismaClient} from "@prisma/client"
+import { Customer, Job, JobAuditType, JobStatus, PrismaClient} from "@prisma/client"
 import { getUserId } from "./user";
 
 const prisma = new PrismaClient()
@@ -12,6 +12,11 @@ export async function getAllJobs() {
 
 export async function getJob(id: number) {
   const job = prisma.job.findFirst({where: {id}})
+  return job;
+}
+
+export async function getJobAudits(id: number) {
+  const job = prisma.jobAudit.findMany({where: {jobId: id}})
   return job;
 }
 
@@ -36,7 +41,19 @@ export async function createCustomer(customer: Pick<Customer, "lastName" | "firs
 }
 
 export async function createJob(job: Pick<Job, "name" | "parts" | "repairs" | "category" | "subCategory" | "nature">, customer: Customer, repairer?: string) {
-  return await prisma.job.create({data: {customerId: customer.id, repairer: repairer, ...job}})
+  const createdJob =  await prisma.job.create({data: {customerId: customer.id, repairer: repairer, ...job}})
+
+  const userId = await getUserId() || "unknown"
+
+  await prisma.jobAudit.create({
+      data: {
+          jobId: createdJob.id,
+          by: userId,
+          type: JobAuditType.CREATE,
+      }
+  })
+
+  return createdJob
 }
 
 
@@ -73,6 +90,7 @@ export async function fetchCardData() {
 }
 
 export async function changeStatus(job: Job, status: JobStatus, notes: string): Promise<Job> {
+  const previousStatus = job.status
   job.status = status
   job = await prisma.job.update({
       where: { id: job.id },
@@ -82,5 +100,18 @@ export async function changeStatus(job: Job, status: JobStatus, notes: string): 
       },
   })
   console.log("Marking job as ", status)
+
+  const userId = await getUserId() || "unknown"
+
+  await prisma.jobAudit.create({
+      data: {
+          jobId: job.id,
+          previousValue: previousStatus,
+          newValue: job.status,
+          by: userId,
+          type: JobAuditType.UPDATE,
+          field: "status"
+      }
+  })
   return job;
 }
