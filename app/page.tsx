@@ -1,6 +1,7 @@
 import { Card } from '@/app/ui/dashboard/cards';
 import { fetchCardData } from '@/app/lib/data';
 import { getUserName, getUserId } from '@/app/lib/user';
+import JobJump from './ui/dashboard/job-jump';
  
 export const dynamic = "force-dynamic"
 
@@ -17,7 +18,10 @@ export default async function Page() {
       <h2>
         Welcome back {userName}
       </h2>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-5 grid gap-6 sm:grid-cols-1 lg:grid-cols-1">
+        <JobJump />
+      </div>
+      <div className="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <Card title="My Jobs" value={numberOfJobsAssignedToMe} type="jobs" filter={userId}/>
         <Card title="Total Jobs" value={numberOfJobs} type="jobs" />
         <Card
@@ -26,6 +30,7 @@ export default async function Page() {
           type="customers"
         />
       </div>
+      
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8"></div>
     </main>
   );
