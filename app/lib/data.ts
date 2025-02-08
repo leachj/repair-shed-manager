@@ -145,3 +145,14 @@ export async function assignRepairer(job: Job, repairer: string | null, notes: s
   return job;
 }
 
+export async function addNotes(job: Job, notes: string): Promise<Job> {
+  job = await prisma.job.update({
+      where: { id: job.id },
+      data: {
+          notes: (job.notes || "") + ( notes ? "\n" + notes : "")
+      },
+  })
+
+  return job;
+}
+

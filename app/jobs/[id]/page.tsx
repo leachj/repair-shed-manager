@@ -69,11 +69,12 @@ export default function JobPage({ params }: { params: { id: string } }) {
         <div>Category: {job.category?.toLowerCase()}</div>
         <div>Sub Category: {job.subCategory?.toLowerCase()}</div>
         <div>Nature: {job.nature?.toLowerCase()}</div>
-        <div>Notes: {job.notes?.toLowerCase()}</div>
         <div>Parts: {job.parts?.toLowerCase()}</div>
         <div>Repairs: {job.repairs?.toLowerCase()}</div>
         <div>Repairer: {job.repairer?userMap[job.repairer]:"unassigned"}</div>
-
+        <div>Notes: 
+        <p className="whitespace-pre-wrap ml-10 text-sm">{job.notes}</p>
+        </div>
 
         <Actions job={job} setJob={setJob} userMap={userMap}></Actions>
       </div>

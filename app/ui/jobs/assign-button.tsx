@@ -79,7 +79,7 @@ export default function AssignButton({ job, setJob, userMap }: AssignButtonProps
         </div>
         <DialogFooter>
         <DialogClose asChild>
-          <Button onClick={() => assignRepairer(job, repairer, notes).then(updatedJob => setJob(updatedJob))}>Save changes</Button>
+          <Button onClick={() => assignRepairer(job, repairer, notes).then(updatedJob => setJob(updatedJob)).then(() => setNotes(""))}>Save changes</Button>
         </DialogClose>
         </DialogFooter>
       </DialogContent>

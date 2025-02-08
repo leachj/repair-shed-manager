@@ -72,7 +72,7 @@ export default function CompleteButton({ job, setJob }: CompleteButtonProps) {
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={() => changeStatus(job, status, notes).then(updatedJob => setJob(updatedJob))}>Save changes</Button>
+          <Button onClick={() => changeStatus(job, status, notes).then(updatedJob => setJob(updatedJob)).then(() => setNotes(""))}>Save changes</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
