@@ -13,10 +13,6 @@ export async function getAllJobs() {
 
 export async function getJob(id: number) {
   const job = await prisma.job.findFirst({where: {id}})
-  if(job) {
-    const userMap = await getUserMap()
-    job.repairer = userMap[job?.repairer || ""] || "unknown"
-  }
   return job;
 }
 
@@ -122,3 +118,30 @@ export async function changeStatus(job: Job, status: JobStatus, notes: string): 
   })
   return job;
 }
+
+export async function assignRepairer(job: Job, repairer: string | null, notes: string): Promise<Job> {
+  const previousStatus = job.repairer
+  job.repairer = repairer === "unassigned" ? null : repairer
+  job = await prisma.job.update({
+      where: { id: job.id },
+      data: {
+          repairer: job.repairer,
+          notes: (job.notes || "") + ( notes ? "\n" + notes : "")
+      },
+  })
+
+  const userId = await getUserId() || "unknown"
+
+  await prisma.jobAudit.create({
+      data: {
+          jobId: job.id,
+          previousValue: previousStatus,
+          newValue: job.repairer,
+          by: userId,
+          type: JobAuditType.UPDATE,
+          field: "repairer"
+      }
+  })
+  return job;
+}
+
