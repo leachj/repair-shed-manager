@@ -2,6 +2,7 @@
 import { JobAudit } from "@prisma/client";
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
+import JobAuditEntry from "./jobAuditEntry";
 
 TimeAgo.addDefaultLocale(en)
 
@@ -30,14 +31,10 @@ export default function JobAuditLog({ jobAudits, userMap }: JobAuditProps) {
 
   return (
     <div className="mt-10">
-      <h2  className="m-2">Audit Log</h2>
+      <h2  className="m-2 text-lg">Audit Log</h2>
       <ul>
         {jobAudits.map((audit, index) => {
-          switch (audit.type) {
-            case "CREATE": return <li key={index} className="m-2"><b>Job Created</b> by <b>{audit.by}</b> <span title={audit.at.toLocaleDateString() +" at " + audit.at.toLocaleTimeString()}>{timeAgo.format(audit.at, 'round')}</span></li>
-            case "UPDATE": return <li key={index} className="m-2"><b className="capitalize">{audit.field}</b> changed from <b>{mapValue(audit.field, audit.previousValue)}</b> to <b>{mapValue(audit.field, audit.newValue)}</b> by <b>{audit.by}</b> <span title={audit.at.toLocaleDateString() +" at " + audit.at.toLocaleTimeString()}>{timeAgo.format(audit.at, 'round')}</span></li>
-            case "DELETE": return <li key={index} className="m-2">Job <b>Deleted</b> by <b>{audit.by}</b> <span title={audit.at.toLocaleDateString() +" at " + audit.at.toLocaleTimeString()}>{timeAgo.format(audit.at, 'round')}</span></li>
-          }
+          return <JobAuditEntry audit={audit} index={index} userMap={userMap} />
         })}
       </ul>
     </div>

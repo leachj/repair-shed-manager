@@ -82,7 +82,7 @@ export default function JobPage({ params }: { params: { id: string } }) {
       <JobAuditLog jobAudits={jobAudits} userMap={userMap}></JobAuditLog>
     </div>
   } else {
-    return <div>Job not found</div>
+    return <div>Loading</div>
   }
 
 

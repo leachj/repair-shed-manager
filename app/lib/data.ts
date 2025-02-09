@@ -92,30 +92,19 @@ export async function fetchCardData() {
   }
 }
 
-export async function changeStatus(job: Job, status: JobStatus, notes: string): Promise<Job> {
+export async function changeStatus(job: Job, status: JobStatus, notes: string | null): Promise<Job> {
   const previousStatus = job.status
   job.status = status
   job = await prisma.job.update({
       where: { id: job.id },
       data: {
           status: job.status,
-          notes: (job.notes || "") + ( notes ? "\n" + notes : "")
+          notes: notes? (job.notes || "") + ( notes ? "\n" + notes : ""): job.notes
       },
   })
-  console.log("Marking job as ", status)
 
-  const userId = await getUserId() || "unknown"
+  await createUpdateAudit(job, "status", previousStatus, job.status)
 
-  await prisma.jobAudit.create({
-      data: {
-          jobId: job.id,
-          previousValue: previousStatus,
-          newValue: job.status,
-          by: userId,
-          type: JobAuditType.UPDATE,
-          field: "status"
-      }
-  })
   return job;
 }
 
@@ -130,18 +119,8 @@ export async function assignRepairer(job: Job, repairer: string | null, notes: s
       },
   })
 
-  const userId = await getUserId() || "unknown"
+  await createUpdateAudit(job, "repairer", previousStatus, job.repairer)
 
-  await prisma.jobAudit.create({
-      data: {
-          jobId: job.id,
-          previousValue: previousStatus,
-          newValue: job.repairer,
-          by: userId,
-          type: JobAuditType.UPDATE,
-          field: "repairer"
-      }
-  })
   return job;
 }
 
@@ -153,6 +132,37 @@ export async function addNotes(job: Job, notes: string): Promise<Job> {
       },
   })
 
+  await createUpdateAudit(job, "notes", null, null)
+
   return job;
+}
+
+export async function addParts(job: Job, parts: string): Promise<Job> {
+  job = await prisma.job.update({
+      where: { id: job.id },
+      data: {
+          parts: parts
+      },
+  })
+
+  await createUpdateAudit(job, "parts", null, null)
+
+  return job;
+}
+
+async function createUpdateAudit(job: Job, field: string, previousValue: string | null, newValue: string | null) {
+
+  const userId = await getUserId() || "unknown"
+
+  await prisma.jobAudit.create({
+      data: {
+          jobId: job.id,
+          previousValue: previousValue,
+          newValue: newValue,
+          by: userId,
+          type: JobAuditType.UPDATE,
+          field: field
+      }
+  })
 }
 
