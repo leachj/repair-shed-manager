@@ -10,10 +10,9 @@ const timeAgo = new TimeAgo('en-GB')
 interface JobAuditProps {
   audit: JobAudit
   userMap: Record<string, string>;
-  index: number;
 }
 
-export default function JobAuditLog({ audit, userMap, index }: JobAuditProps) {
+export default function JobAuditLog({ audit, userMap }: JobAuditProps) {
 
   const mapValue = (field: string|null, value: string|null) => {
     if(field === "status") {
@@ -26,7 +25,7 @@ export default function JobAuditLog({ audit, userMap, index }: JobAuditProps) {
   }
 
   return (
-    <li key={index} className="m-2">
+    <li className="m-2">
     {audit.type === "CREATE" && 
       <div><b>Job Created</b> by <b>{audit.by}</b> <span title={audit.at.toLocaleDateString() +" at " + audit.at.toLocaleTimeString()}>{timeAgo.format(audit.at, 'round')}</span></div>
     }
